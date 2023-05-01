@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Список работ</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Название</th>
+        <th scope="col">Описание</th>
+        <th scope="col">Категория</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for work in works %}
+        <tr>
+          <th scope="row">{{ work.id }}</th>
+          <td>{{ work.title }}</td>
+          <td>{{ work.content }}</td>
+          <td>{{ work.category.name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

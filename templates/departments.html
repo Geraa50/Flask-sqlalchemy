@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Список департаментов</h1>
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('add_department') }}" class="btn btn-primary mb-3">Добавить департамент</a>
+  {% endif %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Название</th>
+        {% if current_user.is_authenticated %}
+          <th scope="col">Действия</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for department in departments %}
+        <tr>
+          <th scope="row">{{ department.id }}</th>
+          <td>{{ department.name }}</td>
+          {% if current_user.is_authenticated %}
+            <td>
+              <a href="{{ url_for('edit_department', department_id=department.id) }}" class="btn btn-warning btn-sm">Изменить</a>
+              <form action="{{ url_for('delete_department', department_id=department.id) }}" method="POST" class="d-inline">
+                {{ csrf_token() }}
+                <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+              </form>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
