@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Список работ</h1>
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('add_work') }}" class="btn btn-primary mb-3">Добавить работу</a>
+  {% endif %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Заголовок</th>
+        <th scope="col">Описание</th>
+        <th scope="col">Автор</th>
+        {% if current_user.is_authenticated %}
+          <th scope="col">Действия</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for work in works %}
+        <tr>
+          <th scope="row">{{ work.id }}</th>
+          <td>{{ work.title }}</td>
+          <td>{{ work.content }}</td>
+          <td>{{ work.author.username }}</td>
+          {% if current_user.is_authenticated %}
+            <td>
+              {% if work.author == current_user or current_user.id == 1 %}
+                <a href="{{ url_for('edit_work', work_id=work.id) }}" class="btn btn-warning btn-sm">Изменить</a>
+                <form action="{{ url_for('delete_work', work_id=work.id) }}" method="POST" class="d-inline">
+                  {{ form.csrf_token }}
+                  <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                </form>
+              {% endif %}
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

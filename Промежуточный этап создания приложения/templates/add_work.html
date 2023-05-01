@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить работу{% endblock %}
+
+{% block content %}
+  <h1>{{ 'Редактировать работу' if edit else 'Добавить работу' }}</h1>
+  <form method="POST">
+    {{ form.csrf_token }}
+    <div class="form-group">
+      <label for="title">Заголовок</label>
+      <input type="text" name="title" id="title" class="form-control" value="{{ work.title if edit else '' }}" required>
+    </div>
+    <div class="form-group">
+      <label for="content">Описание</label>
+      <textarea name="content" id="content" class="form-control" rows="5" required>{{ work.content if edit else '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'Сохранить изменения' if edit else 'Добавить работу' }}</button>
+  </form>
+{% endblock %}
